@@ -50,6 +50,7 @@ func add_score(amount:int):
 		emit_signal("GameWinned")
 #функция проигрыша
 func gameOver():
+	score = 0
 	emit_signal("GameOver")
 
 
