@@ -112,3 +112,9 @@ GlobalScript.scores += 1.
 2) Сохранение настроек может быть осуществлено через конфиг-файлы. В godot для этого задействуется специальный класс ConfigFile.
 3) Более высокоуровневый способ сохранения данных - использование ResourceSaver и ResourceLoader
 ## Как подключить и использовать Android плагины в Godot? Какие шаги необходимы для интеграции?
+Андроид плагины поставляются в godot в виде андроид библиотек .aar. Имеющийся андроид плагин необходимо поместить в папку res://android/plugins. После чего плагин необходимо активировать в Project Settings -> Plugins. Затем Export выбираем Android export preset. Код Java/Kotlin в godot регистрируется как singletone, соответственно для взаимодействия с плагином используем:
+```gdscript
+if Engine.has_singleton("MyPlugin"):
+		var singleton = Engine.get_singleton("MyPlugin")
+		print(singleton.myPluginFunction("World"))
+```
