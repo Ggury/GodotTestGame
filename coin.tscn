@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://ceo5n5wl74eou"]
+
+[ext_resource type="Script" uid="uid://bsmku2rumfgqf" path="res://coin.gd" id="1_d5gmh"]
+[ext_resource type="Texture2D" uid="uid://4j0ci8y6x5ru" path="res://TestGameSprites.png" id="2_0t63x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nfk4m"]
+
+[node name="Coin" type="Area2D" groups=["Persist", "Persist_To_Delete"]]
+collision_layer = 8
+script = ExtResource("1_d5gmh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nfk4m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_0t63x")
+hframes = 4
+vframes = 2
+frame = 7
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

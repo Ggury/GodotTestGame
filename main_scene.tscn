@@ -1,0 +1,238 @@
+[gd_scene load_steps=12 format=4 uid="uid://3pdxwd5uc2si"]
+
+[ext_resource type="Script" uid="uid://bhxa602xckecd" path="res://MainPlayer.gd" id="1_0f027"]
+[ext_resource type="Script" uid="uid://cggdlgeuww1v7" path="res://MainNodeScript.gd" id="1_8mm7a"]
+[ext_resource type="TileSet" uid="uid://qo0jy6enlfdm" path="res://TileSet.tres" id="2_gyfs4"]
+[ext_resource type="Script" uid="uid://ugf7lxsmf4nc" path="res://TileMap_Generator.gd" id="3_d5x1h"]
+[ext_resource type="Texture2D" uid="uid://4j0ci8y6x5ru" path="res://TestGameSprites.png" id="3_hq1ik"]
+[ext_resource type="Script" uid="uid://dfp6ndmkfttsy" path="res://Hud_control.gd" id="3_nfk4m"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2c62f"]
+radius = 4.0
+height = 14.0
+
+[sub_resource type="Animation" id="Animation_hq1ik"]
+resource_name = "Idle_Anim"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player_Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_nfk4m"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player_Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_66tet"]
+resource_name = "Walk_Anim"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player_Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.100000024),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7ycvg"]
+_data = {
+&"Idle_Anim": SubResource("Animation_hq1ik"),
+&"RESET": SubResource("Animation_nfk4m"),
+&"Walk_Anim": SubResource("Animation_66tet")
+}
+
+[node name="MainScene" type="Node2D"]
+script = ExtResource("1_8mm7a")
+
+[node name="Player" type="CharacterBody2D" parent="." groups=["Persist"]]
+position = Vector2(305, 40)
+collision_mask = 2
+script = ExtResource("1_0f027")
+JumpVelocity = -450.0
+throttle = -200.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("CapsuleShape2D_2c62f")
+
+[node name="Player_Sprite" type="Sprite2D" parent="Player"]
+position = Vector2(0.50000024, -0.5)
+texture = ExtResource("3_hq1ik")
+hframes = 4
+vframes = 2
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2, 2)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Player"]
+
+[node name="Control" type="Control" parent="Player/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 62.0
+offset_bottom = 40.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+script = ExtResource("3_nfk4m")
+
+[node name="Score" type="Label" parent="Player/CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Score:"
+
+[node name="Fuel_Bar" type="ProgressBar" parent="Player/CanvasLayer/Control"]
+layout_mode = 0
+offset_top = 24.0
+offset_right = 204.0
+offset_bottom = 51.0
+max_value = 30.0
+
+[node name="Save_button" type="Button" parent="Player/CanvasLayer/Control"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 94.0
+offset_bottom = 95.0
+text = "Save Game"
+
+[node name="Load_button" type="Button" parent="Player/CanvasLayer/Control"]
+layout_mode = 0
+offset_top = 103.0
+offset_right = 94.0
+offset_bottom = 134.0
+text = "Load Game"
+
+[node name="GameOverPanel" type="Panel" parent="Player/CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Player/CanvasLayer/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Restart_Button" type="Button" parent="Player/CanvasLayer/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.5
+offset_top = -15.5
+offset_right = 32.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Restart"
+
+[node name="Exit_Button" type="Button" parent="Player/CanvasLayer/GameOverPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.56200004
+anchor_right = 0.5
+anchor_bottom = 0.56200004
+offset_left = -18.5
+offset_top = -15.676025
+offset_right = 18.5
+offset_bottom = 15.323975
+grow_horizontal = 2
+grow_vertical = 2
+text = "Exit
+"
+
+[node name="GameOverLabel" type="Label" parent="Player/CanvasLayer/GameOverPanel"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.38900003
+anchor_right = 0.5
+anchor_bottom = 0.38900003
+offset_left = -143.0
+offset_top = -34.57202
+offset_right = 143.0
+offset_bottom = 34.42798
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "GAME OVER"
+
+[node name="Win_Label" type="Label" parent="Player/CanvasLayer/GameOverPanel"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.38900003
+anchor_right = 0.5
+anchor_bottom = 0.38900003
+offset_left = -51.0
+offset_top = -34.57202
+offset_right = 51.0
+offset_bottom = 34.42798
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "WIN"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+libraries = {
+&"": SubResource("AnimationLibrary_7ycvg")
+}
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." groups=["Persist"]]
+tile_map_data = PackedByteArray("AAAFAAQAAQAAAAAAAAAGAAQAAQAAAAAAAAAGAAUAAQAAAAAAAAAHAAUAAQAAAAAAAAAIAAUAAQAAAAAAAAAIAAYAAQAAAAAAAAAJAAYAAQAAAAAAAAAKAAYAAQAAAAAAAAALAAYAAQAAAAAAAAAMAAYAAQAAAAAAAAANAAYAAQAAAAAAAAAOAAYAAQAAAAAAAAAPAAYAAQAAAAAAAAAQAAYAAQAAAAAAAAARAAUAAQAAAAAAAAARAAQAAQAAAAAAAAAQAAQAAQAAAAAAAAAPAAQAAQAAAAAAAAAOAAQAAQAAAAAAAAANAAUAAQAAAAAAAAAMAAUAAQAAAAAAAAALAAUAAQAAAAAAAAAKAAUAAQAAAAAAAAAJAAUAAQAAAAAAAAAHAAYAAQAAAAAAAAAHAAcAAQAAAAAAAAAIAAcAAQAAAAAAAAAJAAcAAQAAAAAAAAAKAAcAAQAAAAAAAAALAAcAAQAAAAAAAAAPAAUAAQAAAAAAAAALAAgAAQAAAAAAAAAKAAkAAQAAAAAAAAALAAkAAQAAAAAAAAAMAAgAAQAAAAAAAAANAAgAAQAAAAAAAAAOAAcAAQAAAAAAAAAOAAUAAQAAAAAAAAANAAQAAQAAAAAAAAAMAAQAAQAAAAAAAAALAAQAAQAAAAAAAAA=")
+tile_set = ExtResource("2_gyfs4")
+script = ExtResource("3_d5x1h")
+corridor_width = 6
+
+[node name="MainTimer" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="CoinTimer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
+
+[connection signal="pressed" from="Player/CanvasLayer/Control/Save_button" to="Player/CanvasLayer/Control" method="_on_save_button_pressed"]
+[connection signal="pressed" from="Player/CanvasLayer/Control/Load_button" to="Player/CanvasLayer/Control" method="_on_load_button_pressed"]
+[connection signal="pressed" from="Player/CanvasLayer/GameOverPanel/Restart_Button" to="Player/CanvasLayer/Control" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Player/CanvasLayer/GameOverPanel/Exit_Button" to="Player/CanvasLayer/Control" method="_on_exit_button_pressed"]
+[connection signal="timeout" from="MainTimer" to="." method="_on_main_timer_timeout"]
+[connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]

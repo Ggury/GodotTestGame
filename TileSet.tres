@@ -1,0 +1,16 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://qo0jy6enlfdm"]
+
+[ext_resource type="Texture2D" uid="uid://1o2d0miws6iq" path="res://SimpleTilemap.png" id="1_g2hbc"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hhvbn"]
+texture = ExtResource("1_g2hbc")
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 8, 8, -8, 8, -8, -8)
+
+[resource]
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 5
+sources/1 = SubResource("TileSetAtlasSource_hhvbn")
