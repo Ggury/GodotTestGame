@@ -117,4 +117,8 @@ GlobalScript.scores += 1.
 if Engine.has_singleton("MyPlugin"):
 		var singleton = Engine.get_singleton("MyPlugin")
 		print(singleton.myPluginFunction("World"))
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> f0b52d1b5bf13c8fbb4c62cc01f3eaacfee0c56e
